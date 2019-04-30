@@ -5,6 +5,8 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -35,5 +37,11 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun clickButton(view: View)         // returning nothing, so no type declared (not 'void')?
+    {
+        val pnjText = findViewById<EditText>(R.id.pnjText)
+        pnjText.setText("Clicked via Kotlin")
     }
 }
