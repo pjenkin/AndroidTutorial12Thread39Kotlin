@@ -1,6 +1,8 @@
 package com.example.thread39kotlin
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
@@ -11,6 +13,23 @@ import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val pnjHandler: Handler = object: Handler()
+    {
+
+        // Alt+Insert (Windows AS)
+        /**
+         * Subclasses must implement this to receive messages.
+         */
+        val something = "something"
+        override fun handleMessage(msg: Message?) {
+            //super.handleMessage(msg)
+            val pnjText = findViewById<EditText>(R.id.pnjText)
+            pnjText.setText("Clicked via Kotlin")
+        }
+
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +60,14 @@ class MainActivity : AppCompatActivity() {
 
     fun clickButton(view: View)         // returning nothing, so no type declared (not 'void')?
     {
-        val pnjText = findViewById<EditText>(R.id.pnjText)
-        pnjText.setText("Clicked via Kotlin")
+//        val pnjText = findViewById<EditText>(R.id.pnjText)
+//        pnjText.setText("Clicked via Kotlin")
+            val t = Thread {
+                // wait 10 seconds then call handler to get text changed, or whatever
+                Thread.sleep(10_000)                // NB underscore as 10^3 separator
+                // wait - could be doing long calculation or other function here
+                pnjHandler.sendEmptyMessage(0)      // send empty message, to trigger handler's code
+            }
+            t.start()// don't forget this :-D
     }
 }
